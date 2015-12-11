@@ -29,11 +29,6 @@ assert "My Initiative Management" in driver.title
 elem = driver.find_element_by_link_text("Time Report")
 elem.send_keys(Keys.RETURN)
 
-## navigate to time report page
-assert "My Initiative Management" in driver.title
-elem = driver.find_element_by_link_text("Time Report")
-elem.send_keys(Keys.RETURN)
-
 ## time report
 assert "Time Report" in driver.title
 for times in data["time"]:
@@ -95,7 +90,7 @@ for times in data["time"]:
     elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
     elem.send_keys(times["horas"])
 
-    # grava o report
+    # grava o report, passa ao próximo ou fecha o browser
     elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
     elem.click()
     
