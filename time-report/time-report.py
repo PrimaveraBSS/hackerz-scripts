@@ -5,30 +5,28 @@ from selenium.webdriver.common.keys import Keys
 import json
 import getpass
 
+from im import *
+
 ## load data
 with open("time-report.json") as data_file:
     data = json.load(data_file)
 
 driver = webdriver.Chrome()
-## Login
-driver.get("http://www.primaverabss.com/consultingspace/Home%20Page-Login.aspx")
-assert "Login" in driver.title
-# username
-elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtLogin")
-print("username: ", end="")
-username = input()
-elem.send_keys(username)
-# password
-elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtPwd")
-password = getpass.getpass("password for " + username + ": ")
-elem.send_keys(password)
-# login
-elem.send_keys(Keys.RETURN)
+driver.get("http://www.primaverabss.com/consultingspace")
+
+# do login
+catch = login(driver)
+if type(catch) is str:
+    driver.close()
+    print(catch)
+    sys.exit()
 
 ## navigate to time report page
-assert "My Initiative Management" in driver.title
-elem = driver.find_element_by_link_text("Time Report")
-elem.send_keys(Keys.RETURN)
+catch = navigate(driver, "fake")
+if type(catch) is str:
+    driver.close()
+    print(catch)
+    sys.exit()
 
 ## time report
 assert "Time Report" in driver.title
@@ -93,6 +91,6 @@ for times in data["time"]:
 
     # grava o report, passa ao próximo ou fecha o browser
     elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
-    elem.click()
+    #elem.click()
     
 driver.close()
