@@ -35,15 +35,20 @@ assert "Time Report" in driver.title
 
 ## select projects one by one
 elem = driver.find_element_by_id("MyMatrix_ctl07_ddlProject")
-projects = elem.find_elements_by_tag_name("option")
+projects_elems = elem.find_elements_by_tag_name("option")
+projects = []
+for project_elem in projects_elems:
+    projects.append(project_elem.get_attribute("text"))
 result = {}
 for project in projects:
+    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
+    select.select_by_visible_text(project)
     elem = driver.find_element_by_id("MyMatrix_ctl07_ddlActivity")
     activities = elem.find_elements_by_tag_name("option")
-    result[project.get_attribute("text")] = {}
+    result[project] = {}
     activity_id = 0
     for activity in activities:
-        result[project.get_attribute("text")][activity_id] = activity.get_attribute("text")
+        result[project][activity_id] = activity.get_attribute("text")
         activity_id += 1
 with open("time-report-activity-list.json", "w", encoding="utf8") as result_file:
     json.dump(result, result_file, ensure_ascii=False, indent=4)
