@@ -15,14 +15,14 @@ driver = webdriver.Chrome()
 driver.get("http://www.primaverabss.com/consultingspace")
 
 # do login
-catch = login(driver)
+catch = login(driver, "pedrorodrigues", "lp5an")
 if type(catch) is str:
     driver.close()
     print(catch)
     sys.exit()
 
-## navigate to time report page
-catch = navigate(driver, "fake")
+# navigate to time report page
+catch = navigateToLink(driver, "Time Report")
 if type(catch) is str:
     driver.close()
     print(catch)
@@ -31,66 +31,32 @@ if type(catch) is str:
 ## time report
 assert "Time Report" in driver.title
 for times in data["time"]:
-    # verifica se esta no dia a reportar
-    elem = driver.find_element_by_id("MyMatrix_ctl07_lblEditarDia")
-    if not elem.text == "Editar Dia: " + times["dia"]:
-        
-        # move pare o ano a reportar
-        while (times["dia"].split("-")[2] != elem.text.replace("Editar Dia: ", "").split("-")[2]):
-            if (times["dia"].split("-")[2] > elem.text.replace("Editar Dia: ", "").split("-")[2]):
-                # ano a reportar maior que ano posicionado, move para a direita
-                elem = driver.find_element_by_id("MyMatrix_ctl07_wcReportacaoHoras_502")
-                elem.click()
-            else:
-                # ano a reportar menor que ano posicionado, move para a esquerda
-                elem = driver.find_element_by_id("MyMatrix_ctl07_wcReportacaoHoras_500")
-                elem.click()
+    print("selecting " + times["dia"])
+    # select day, navigating if necessary
+    calendar = "report"
+    catch = navigateToDate(driver, "report", times["dia"])
+    if type(catch) is str:
+        driver.close()
+        print(catch)
+        sys.exit()
 
-            elem = driver.find_element_by_id("MyMatrix_ctl07_wcReportacaoHoras_512")
-            elem.find_elements_by_class_name("date_day")[0].click()
-            elem = driver.find_element_by_id("MyMatrix_ctl07_lblEditarDia")
-
-            
-        # move pare o mes a reportar
-        while (times["dia"].split("-")[1] != elem.text.replace("Editar Dia: ", "").split("-")[1]):
-            if (times["dia"].split("-")[1] > elem.text.replace("Editar Dia: ", "").split("-")[1]):
-                # mes a reportar maior que mes posicionado, move para a direita
-                elem = driver.find_element_by_id("MyMatrix_ctl07_wcReportacaoHoras_502")
-                elem.click()
-            else:
-                # mes a reportar menor que mes posicionado, move para a esquerda
-                elem = driver.find_element_by_id("MyMatrix_ctl07_wcReportacaoHoras_500")
-                elem.click()
-
-            elem = driver.find_element_by_id("MyMatrix_ctl07_wcReportacaoHoras_512")
-            elem.find_elements_by_class_name("date_day")[0].click()
-            elem = driver.find_element_by_id("MyMatrix_ctl07_lblEditarDia")
-
-    # seleciona o dia
-    elem = driver.find_element_by_id("MyMatrix_ctl07_wcReportacaoHoras_512")
-    elem = elem.find_elements_by_class_name("date_day")
-    for dayElem in elem:
-        if dayElem.text == times["dia"].split("-")[0]:
-            dayElem.click()
-            break
-
-    # verfica se não tem report neste dia
-    elem = driver.find_element_by_id("MyMatrix_ctl07_txtTotalHoras")
-    if (elem.get_attribute("value") != "0"): # tem horas reportas, passa em frente
-        continue
-
-    # seleciona o projecto
-    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
-    select.select_by_visible_text(times["projecto"])
-    # seleciona a actividade
-    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlActivity"))
-    select.select_by_visible_text(times["actividade"])
-    # marca as horas
-    elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
-    elem.send_keys(times["horas"])
-
-    # grava o report, passa ao próximo ou fecha o browser
-    elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
-    #elem.click()
+##    # verfica se não tem report neste dia
+##    elem = driver.find_element_by_id("MyMatrix_ctl07_txtTotalHoras")
+##    if (elem.get_attribute("value") != "0"): # tem horas reportas, passa em frente
+##        continue
+##
+##    # seleciona o projecto
+##    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
+##    select.select_by_visible_text(times["projecto"])
+##    # seleciona a actividade
+##    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlActivity"))
+##    select.select_by_visible_text(times["actividade"])
+##    # marca as horas
+##    elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
+##    elem.send_keys(times["horas"])
+##
+##    # grava o report, passa ao próximo ou fecha o browser
+##    elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
+##    #elem.click()
     
 driver.close()
