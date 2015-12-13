@@ -6,6 +6,7 @@ Faz o report de horas automaticamente no portal do IM
 ### requerimentos
 * [python 3.5.1 ou superior](https://www.python.org/downloads/)
 * [caminho para python.exe na variavel PATH](http://stackoverflow.com/questions/3701646/how-to-add-to-the-pythonpath-in-windows-7)
+* [Selenium python package](http://selenium-python.readthedocs.org/installation.html)
 * [Selenium Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
 * [Chrome Browser](https://www.google.com/chrome/browser/desktop/)
 
