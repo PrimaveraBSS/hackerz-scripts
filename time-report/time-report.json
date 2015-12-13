@@ -5,24 +5,24 @@
 	},
 	"time": [
 		{
+			"dia": "11-12-2015",
+			"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
+			"actividade": "Acompanhamento em Ambito de Projecto", 
+			"horas": "7"
+		},
+		{
 			"dia": "13-12-2015",
 			"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
 			"actividade": "Outras (justificar)", 
-			"horas": "7",
+			"horas": "0",
+			"comentario": "report de despesa",
 			"expenses": [
-				{
-					"tipo": "Lunch working Day",
-					"local": "Outros Mercados",
-					"moeda": "AKZ",
-					"valor": "1850,34",
-					"observacoes": "teste"
-				},
 				{
 					"tipo": "Gasoline",
 					"local": "Outros Mercados",
-					"matricula": "LD-60-99-BS",
 					"moeda": "AKZ",
-					"valor": "6109,78"
+					"valor": "6000",
+					"matricula": "LD-99-60-BS"
 				}
 			]
 		}
