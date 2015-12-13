@@ -13,13 +13,14 @@
                 "projecto": ".*",
                 "actividade": ".*",
                 "horas": "7|3.5",
+				"comentario": ".*"
 				"expenses": [
 					"tipo": "Another Meal|Diesel|Gasoline|Hotels|Islands-Another meal|Islands-Gasoline|Islands-Lunch working day|Islands-Taxis|Kms in proper car|Lunch working Day|Mobility|Night Out|Other Expenses (detail)|Parking|Taxi Primavera (Sr. Marco)|Taxis|Tolls gate",
 					"local": "Ilhas Açores|Ilhas Madeira|Intracomunitário Espanha|Intracomunitário Outros|Nacional|Outros Mercados",
 					"itenerario": ".*",
 					"diaDeslocao": ".*",
-					"kms": "",
-					"proposito": "",
+					"kms": ".*",
+					"proposito": ".*",
 					"matricula": ".*",
 					"regiao": "Outros|ROA|ES|AO|MZ|PT",
 					"moeda": "AED|AZK|CVE|EUR|MZN|USD",

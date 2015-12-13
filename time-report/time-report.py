@@ -115,15 +115,22 @@ for times in data["time"]:
     if (elem.get_attribute("value") != "0"): # tem horas reportas, passa em frente
         continue
 
-    # seleciona o projecto
+    # projecto
     select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
     select.select_by_visible_text(times["projecto"])
-    # seleciona a actividade
+    
+    # actividade
     select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlActivity"))
     select.select_by_visible_text(times["actividade"])
-    # marca as horas
+    
+    # horas
     elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
     elem.send_keys(times["horas"])
+
+    # comentario
+    if "comentario" in times:  
+        elem = driver.find_element_by_id("MyMatrix_ctl07_txtComment")
+        elem.send_keys(times["comentario"])
 
     # grava o report, passa ao próximo
     elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
@@ -147,14 +154,14 @@ for times in data["time"]:
             select.select_by_visible_text(expense["local"])
 
             # specifics
-            tipos = {"Diesel", "Gasoline", "Islands-Gasoline", "Kms in proper car"}
-            if (expense["tipo"] in tipos):
+            tipos = {"Diesel", "Gasoline", "Islands-Gasoline", "Kms in proper car", "Parking", "Tolls gate"}
+            if expense["tipo"] in tipos:
                 # matricula
                 elem = driver.find_element_by_id("MyMatrix_ctl07_txtMatriculaOnly")
                 elem.send_keys(expense["matricula"])
 
             tipos = {"Kms in proper car"}
-            if (expense["tipo"] in tipos):
+            if expense["tipo"] in tipos:
                 # itenerario
                 elem = driver.find_element_by_id("MyMatrix_ctl07_txtDeslocacao")
                 elem.send_keys(expense["itenerario"])
@@ -171,14 +178,12 @@ for times in data["time"]:
                 elem = driver.find_element_by_id("MyMatrix_ctl07_txtCausas")
                 elem.send_keys(expense["proposito"])
 
-            tipos = {"Mobility"}
-            if (expense["tipo"] in tipos):
+            tipos = {"Mobility", "Night Out"}
+            if expense["tipo"] in tipos:
                 # regiao
                 select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlRegiao"))
                 select.select_by_visible_text(expense["regiao"])
                 
-                
-
             # valor !should not be last, otherwise selenium won't wait for exchange recal!
             elem = driver.find_element_by_id("MyMatrix_ctl07_txtValorOriginal")
             elem.send_keys(expense["valor"])

@@ -1,13 +1,13 @@
 {
 	"login": {
 		"username": "pedrorodrigues",
-		"password": "lp5an"
+		"password": ""
 	},
 	"time": [
 		{
-			"dia": "14-12-2015",
-			"projecto": "TENSAI Suporte 2015 (CAO_SVU036)",
-			"actividade": "Suporte Compensação", 
+			"dia": "13-12-2015",
+			"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
+			"actividade": "Outras (justificar)", 
 			"horas": "7",
 			"expenses": [
 				{
