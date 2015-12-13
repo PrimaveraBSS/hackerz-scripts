@@ -15,15 +15,23 @@ driver.get("http://www.primaverabss.com/consultingspace/Home%20Page-Login.aspx")
 assert "Login" in driver.title
 # username
 elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtLogin")
-print("username: ", end="")
-username = input()
+if "username" in data["login"]:
+    username = data["login"]["username"]
+else:
+    print("username: ", end="")
+    username = input()
 elem.send_keys(username)
 # password
 elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtPwd")
-password = getpass.getpass("password for " + username + ": ")
+if "password" in data["login"]:
+    password = data["login"]["password"]
+else:
+    password = getpass.getpass("password for " + username + ": ")
 elem.send_keys(password)
 # login
 elem.send_keys(Keys.RETURN)
+
+
 
 ## navigate to time report page
 assert "My Initiative Management" in driver.title
@@ -93,6 +101,6 @@ for times in data["time"]:
 
     # grava o report, passa ao próximo ou fecha o browser
     elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
-    elem.click()
+    #elem.click()
     
 driver.close()
