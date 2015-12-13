@@ -12,7 +12,7 @@
                 "dia": "[\d]{1,2}-[\d]{1,2}-[\d]{4}",
                 "projecto": ".*",
                 "actividade": ".*",
-                "horas": "7|3.5",
+                "horas": "0|7|3.5",
 				"comentario": ".*"
 				"expenses": [
 					"tipo": "Another Meal|Diesel|Gasoline|Hotels|Islands-Another meal|Islands-Gasoline|Islands-Lunch working day|Islands-Taxis|Kms in proper car|Lunch working Day|Mobility|Night Out|Other Expenses (detail)|Parking|Taxi Primavera (Sr. Marco)|Taxis|Tolls gate",
@@ -45,7 +45,9 @@
 
 `time`.`actividade`: Nome da actividade a reportar, exactamente como fica visível na combobox do site (usa `time-report-activity-list.py` para obter uma lista de actividades disponíveis para cada projecto)
 
-`time`.`horas`: 7 ou 3.5, conforme especificação da CSU
+`time`.`horas`: 0, 7 ou 3.5, conforme especificação da CSU
+
+`time`.`comentario`: Obrigatório para registos de 0 horas
 
 `time`.`expenses`: lista de despesas a reportar para o dia
 
