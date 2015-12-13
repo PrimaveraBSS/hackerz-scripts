@@ -1,15 +1,9 @@
 {
 	"login": {
 		"username": "pedrorodrigues",
-		"password": ""
+		"password": "lp5an"
 	},
 	"time": [
-		{
-			"dia": "11-12-2015",
-			"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
-			"actividade": "Acompanhamento em Ambito de Projecto", 
-			"horas": "7"
-		},
 		{
 			"dia": "13-12-2015",
 			"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
@@ -21,7 +15,7 @@
 					"tipo": "Gasoline",
 					"local": "Outros Mercados",
 					"moeda": "AKZ",
-					"valor": "6000",
+					"valor": "6000,00",
 					"matricula": "LD-99-60-BS"
 				}
 			]

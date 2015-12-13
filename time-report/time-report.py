@@ -186,6 +186,8 @@ for times in data["time"]:
                 
             # valor !should not be last, otherwise selenium won't wait for exchange recal!
             elem = driver.find_element_by_id("MyMatrix_ctl07_txtValorOriginal")
+            elem.clear()
+            elem = driver.find_element_by_id("MyMatrix_ctl07_txtValorOriginal")
             elem.send_keys(expense["valor"])
 
             # observacoes
@@ -201,7 +203,7 @@ for times in data["time"]:
             elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
             elem.click()
 
-            # ler id da despesa inserida
+            # TODO: ler id da despesa inserida
 
         ## navigate back to time report page
         elem = driver.find_element_by_link_text("Time Report")
