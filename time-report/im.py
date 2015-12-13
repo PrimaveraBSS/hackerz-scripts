@@ -1,5 +1,6 @@
 import getpass
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import *
 import re
 import time
 
@@ -59,9 +60,13 @@ def navigateToDate(driver, calendar, date):
             "move_right": "MyMatrix_ctl07_wcReportacaoHoras_502",
             "day_picker": "MyMatrix_ctl07_wcReportacaoHoras_512"
         }
+        calendar_actions["planning"] = {
+            "move_left": "MyMatrix_ctl07_wcPlaneamento_500",
+            "move_right": "MyMatrix_ctl07_wcPlaneamento_502",
+            "day_picker": "MyMatrix_ctl07_wcPlaneamento_512"
+        }
 
         # check year, by picking a day
-        print("selecting year")
         currentDate = __touchDayOne(driver, calendar_actions[calendar]["day_picker"])
         while (currentDate.group("ano") != date.split("-")[2]):
             # move
@@ -70,7 +75,6 @@ def navigateToDate(driver, calendar, date):
             # recap
             currentDate = __touchDayOne(driver, calendar_actions[calendar]["day_picker"])
 
-        print("selecting month")
         while (currentDate.group("mes") != date.split("-")[1]):
             # move
             direction = "move_left" if (currentDate.group("mes") > date.split("-")[1]) else "move_right"
@@ -87,10 +91,27 @@ def navigateToDate(driver, calendar, date):
                 break
         
     except Exception as e:
-        print(e)
         return "An error occurred in function navigateToDate(): sure day '" + date + "' exists?"
 
+def isDayApproved(driver, date):
+    try:
 
+        # navigate to date
+        catch = navigateToDate(driver, "report", date)
+        if type(catch) is str:
+            return " isDayApproved() -> " + catch
+
+        # check if element 'Aprovado' exists
+        try:
+            driver.find_element_by_id("MyMatrix_ctl07_lblAprovado")
+        except NoSuchElementException:
+            return False
+
+        # reached here so element does exists
+        return True
+
+    except Exception as e:
+        return "An error occurred in function isDayApproved(): " + e
 
 
 def __touchDayOne(driver, element_id):
