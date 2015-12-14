@@ -27,11 +27,19 @@
 						"moeda": "AED|AZK|CVE|EUR|MZN|USD",
 						"valor": "[\d]+.[\d]{2}",
 						"observacoes": ".*"
+					},
+					{
+						...
 					}
 				]
-            }
+            },
+			{
+				...
+			}
         ]
     }
+	
+Campos contidos por `[` `]` são arrays de dados, podendo ter n elementos do mesmo formato indicado para o primeiro elemento
 
 #### Campos
 
