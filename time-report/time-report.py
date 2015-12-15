@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import json
 import getpass
 from time import sleep
+from validatejson import loadJsonData
 
 #
 #
@@ -75,8 +76,8 @@ def moveToDate(driver, calendar, date):
 
 
 ## load data
-with open("time-report.json") as data_file:
-    data = json.load(data_file)
+data = loadJsonData("time-report.json")
+print(data)
 
 driver = webdriver.Chrome()
 ## Login
