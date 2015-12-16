@@ -4,10 +4,10 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 import json
 import getpass
+from validatejson import loadJsonData
 
 ## load data
-with open("time-report.json") as data_file:
-    data = json.load(data_file)
+data = loadJsonData("time-report.json")
 
 driver = webdriver.Chrome()
 ## Login
