@@ -2,7 +2,7 @@ def loadJsonData(file):
     import json
 
     ## load data
-    with open(file) as data_file:
+    with open(file, encoding="utf-8") as data_file:
         raw_data = json.load(data_file)
 
 
