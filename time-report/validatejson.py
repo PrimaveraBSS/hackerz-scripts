@@ -67,7 +67,8 @@ def loadJsonData(file):
                     raise ValueError("Campo valor não encontrado em time["
                                      + str(time_id) + "][\"expenses\"]["
                                      + str(expense_id) + "]")
-                if expense["tipo"] == "Kms in proper car":
+                expenseType = expense["tipo"] if "tipo" in expense else static["expenses"]["tipo"]
+                if expenseType == "Kms in proper car":
                     if "itenerario" not in expense and "itenerario" not in static["expenses"]:
                         raise ValueError("Campo itenerario não encontrado em time["
                                          + str(time_id) + "][\"expenses\"]["
@@ -85,13 +86,13 @@ def loadJsonData(file):
                                          + str(time_id) + "][\"expenses\"]["
                                          + str(expense_id) + "]")
                 flags = {"Diesel", "Gasoline", "Islands-Gasoline", "Kms in proper car", "Parking", "Tolls gate"}
-                if expense["tipo"] in flags:
+                if expenseType in flags:
                     if "matricula" not in expense and "matricula" not in static["expenses"]:
                         raise ValueError("Campo matricula não encontrado em time["
                                          + str(time_id) + "][\"expenses\"]["
                                          + str(expense_id) + "]")
                 flags = {"Mobility", "Night Out"}
-                if expense["tipo"] in flags:
+                if expenseType in flags:
                     if "regiao" not in expense and "regiao" not in static["expenses"]:
                         raise ValueError("Campo regiao não encontrado em time["
                                          + str(time_id) + "][\"expenses\"]["
