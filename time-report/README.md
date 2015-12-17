@@ -1,5 +1,51 @@
 ## Ficheiro de configuração
 
+### Campos
+
+#### Obrigatórios
+
+##### Tempos
+
+* `dia`
+* `projecto`
+* `actividade`
+* `horas`
+  * '0'
+    * `comentario`
+
+##### Despesas
+
+* `local`
+* `moeda`
+* `valor`
+* `tipo`
+  * 'Kms in proper car'
+    * `itenerario`
+    * `diaDeslocao`
+    * `kms`
+    * `proposito`
+    * `matricula`
+  * 'Diesel', 'Gasoline', 'Islands-Gasoline', 'Parking', ou 'Tolls gate''
+    * `matricula`
+  * 'Mobility' ou 'Night Out'
+    * `regiao`
+
+#### Opcionais
+
+##### Login
+
+* `username` Username do IM
+* `password` Password do IM
+
+##### Tempos
+
+* `comentario`
+* `expenses`
+
+##### Despesas
+
+* `observacoes`
+
 ### Estrutura
 
     {
@@ -40,45 +86,3 @@
     }
 	
 Campos contidos por `[` `]` são arrays de dados, podendo ter n elementos do mesmo formato indicado para o primeiro elemento
-
-#### Campos
-
-`login`.`username`: O nome de login no IM (se omitido será pedido na consola)
-
-`login`.`password`: A senha de login no IM (se omitido será pedido na consola)
-
-`time`: lista de tempos e despesas associadas a reportar
-
-`time`.`dia`: Dia a reportar no exacto formato que está no IM. Deve validar com a expressão regular `[\d]{1,2}-[\d]{1,2}-[\d]{4}`
-
-`time`.`projecto`: Nome do projecto a reportar, exactamente como fica visível na combobox do site (usa `time-report-activity-list.py` para obter uma lista de projectos disponíveis)
-
-`time`.`actividade`: Nome da actividade a reportar, exactamente como fica visível na combobox do site (usa `time-report-activity-list.py` para obter uma lista de actividades disponíveis para cada projecto)
-
-`time`.`horas`: 0, 7 ou 3.5, conforme especificação da CSU
-
-`time`.`comentario`: Obrigatório para registos de 0 horas
-
-`time`.`expenses`: lista de despesas a reportar para o dia
-
-`time`.`expenses`.`tipo`: Tipo da despesa, exactamente como fica visível na combobox do site
-
-`time`.`expenses`.`local`: Local da despesa exactamente como fica visível na combobox do site
-
-`time`.`expenses`.`itenerario`: Disponível apenas para o tipo 'Kms in proper car'
-
-`time`.`expenses`.`diaDeslocao`: Disponível apenas para o tipo 'Kms in proper car'
-
-`time`.`expenses`.`kms`: Disponível apenas para o tipo 'Kms in proper car'
-
-`time`.`expenses`.`proposito`: Disponível apenas para o tipo 'Kms in proper car'
-
-`time`.`expenses`.`matricula`: Disponível apenas para os tipos 'Diesel', 'Gasoline', 'Islands-Gasoline', 'Kms in proper car', 'Parking', 'Tolls gate'
-
-`time`.`expenses`.`regiao`:  Disponível apenas para os tipos 'Mobility', 'Night Out'
-
-`time`.`expenses`.`moeda`: Moeda da despesa
-
-`time`.`expenses`.`valor`: Valor original da despesa
-
-`time`.`expenses`.`observacoes`: (Opcional) Obsercações da despesa
