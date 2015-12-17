@@ -89,150 +89,153 @@ if "password" in data["login"]:
 else:
     password = getpass.getpass("password for " + username + ": ")
 
+
 # start browser automation
 driver = webdriver.Chrome()
 
-## Login
-driver.get("http://www.primaverabss.com/consultingspace/Home%20Page-Login.aspx")
-assert "Login" in driver.title
-# username
-elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtLogin")
-elem.send_keys(username)
-# password
-elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtPwd")
-elem.send_keys(password)
-# login
-elem.send_keys(Keys.RETURN)
-assert "My Initiative Management" in driver.title
+try:
+    ## Login
+    driver.get("http://www.primaverabss.com/consultingspace/Home%20Page-Login.aspx")
+    assert "Login" in driver.title
+    # username
+    elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtLogin")
+    elem.send_keys(username)
+    # password
+    elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtPwd")
+    elem.send_keys(password)
+    # login
+    elem.send_keys(Keys.RETURN)
+    assert "My Initiative Management" in driver.title
 
-## Integrate all approved expense notes
-elem = driver.find_element_by_link_text("Expenses Report")
-elem.send_keys(Keys.RETURN)
-assert "Expenses Report" in driver.title
-elem = driver.find_element_by_id("MyMatrix_ctl07_btnIntegrarDAF")
-elem.click()
-
-## navigate to time report page
-elem = driver.find_element_by_link_text("Time Report")
-elem.send_keys(Keys.RETURN)
-assert "Time Report" in driver.title
-
-## time report
-for times in data["time"]:
-    moveToDate(driver, "report", times["dia"])
-
-    # verfica se não tem report neste dia
-    elem = driver.find_element_by_id("MyMatrix_ctl07_txtTotalHoras")
-    if (elem.get_attribute("value") != "0"): # tem horas reportas, passa em frente
-        continue
-
-    # projecto
-    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
-    select.select_by_visible_text(times["projecto"])
-    
-    # actividade
-    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlActivity"))
-    select.select_by_visible_text(times["actividade"])
-    
-    # horas
-    elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
-    elem.send_keys(times["horas"])
-
-    # comentario
-    if "comentario" in times:  
-        elem = driver.find_element_by_id("MyMatrix_ctl07_txtComment")
-        elem.send_keys(times["comentario"])
-
-    # grava o report, passa ao próximo
-    elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
+    ## Integrate all approved expense notes
+    elem = driver.find_element_by_link_text("Expenses Report")
+    elem.send_keys(Keys.RETURN)
+    assert "Expenses Report" in driver.title
+    elem = driver.find_element_by_id("MyMatrix_ctl07_btnIntegrarDAF")
     elem.click()
 
-    # reporta despesas
-    expenseIds = []
-    if "expenses" in times:
-        # navigate to expense page 
-        elem = driver.find_element_by_link_text("Expenses Report")
-        elem.send_keys(Keys.RETURN)
-        assert "Expenses Report" in driver.title
-            
-        for expense in times["expenses"]:
-            moveToDate(driver, "expenses", times["dia"])
+    ## navigate to time report page
+    elem = driver.find_element_by_link_text("Time Report")
+    elem.send_keys(Keys.RETURN)
+    assert "Time Report" in driver.title
 
-            # tipo
-            select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlTipoDespesa"))
-            select.select_by_visible_text(expense["tipo"])
+    ## time report
+    for times in data["time"]:
+        moveToDate(driver, "report", times["dia"])
 
-            # local
-            select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlLocal"))
-            select.select_by_visible_text(expense["local"])
+        # verfica se não tem report neste dia
+        elem = driver.find_element_by_id("MyMatrix_ctl07_txtTotalHoras")
+        if (elem.get_attribute("value") != "0"): # tem horas reportas, passa em frente
+            continue
 
-            # specifics
-            tipos = {"Diesel", "Gasoline", "Islands-Gasoline", "Kms in proper car", "Parking", "Tolls gate"}
-            if expense["tipo"] in tipos:
-                # matricula
-                elem = driver.find_element_by_id("MyMatrix_ctl07_txtMatriculaOnly")
-                elem.send_keys(expense["matricula"])
-
-            tipos = {"Kms in proper car"}
-            if expense["tipo"] in tipos:
-                # itenerario
-                elem = driver.find_element_by_id("MyMatrix_ctl07_txtDeslocacao")
-                elem.send_keys(expense["itenerario"])
-                
-                # diaDeslocao
-                elem = driver.find_element_by_id("MyMatrix_ctl07_txtDiaDeslocacao")
-                elem.send_keys(expense["diaDeslocao"])
-                
-                # kms
-                elem = driver.find_element_by_id("MyMatrix_ctl07_txtKms")
-                elem.send_keys(expense["kms"])
-                
-                # proposito
-                elem = driver.find_element_by_id("MyMatrix_ctl07_txtCausas")
-                elem.send_keys(expense["proposito"])
-
-            tipos = {"Mobility", "Night Out"}
-            if expense["tipo"] in tipos:
-                # regiao
-                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlRegiao"))
-                select.select_by_visible_text(expense["regiao"])
-                
-            # valor !should not be last, otherwise selenium won't wait for exchange recal!
-            elem = driver.find_element_by_id("MyMatrix_ctl07_txtValorOriginal")
-            elem.clear()
-            elem = driver.find_element_by_id("MyMatrix_ctl07_txtValorOriginal")
-            elem.send_keys(expense["valor"])
-
-            # observacoes
-            if "observacoes" in expense:
-                elem = driver.find_element_by_id("MyMatrix_ctl07_txtObservacoes")
-                elem.send_keys(expense["observacoes"])
-
-            # moeda
-            select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlMoeda"))
-            select.select_by_visible_text(expense["moeda"])
-
-            # gravar                
-            elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
-            elem.click()
-
-            # devolver id da despesa inserida
-            table = driver.find_element_by_id("MyMatrix_ctl07_GridView")
-            table = table.find_element_by_tag_name("tbody")
-            tableRows = table.find_elements_by_tag_name("tr")
-            for tableRow in tableRows:
-                try:
-                    tableRowData = tableRow.find_element_by_tag_name("td")
-                except NoSuchElementException:
-                    continue
-                if tableRowData.text != " " and tableRowData.text not in expenseIds:
-                    expenseIds.append(tableRowData.text)
-                    print(tableRowData.text + " " + times["dia"] + " " + expense["tipo"] + " " + expense["valor"])
+        # projecto
+        select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
+        select.select_by_visible_text(times["projecto"])
         
+        # actividade
+        select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlActivity"))
+        select.select_by_visible_text(times["actividade"])
+        
+        # horas
+        elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
+        elem.send_keys(times["horas"])
 
-        ## navigate back to time report page
-        elem = driver.find_element_by_link_text("Time Report")
-        elem.send_keys(Keys.RETURN)
+        # comentario
+        if "comentario" in times:  
+            elem = driver.find_element_by_id("MyMatrix_ctl07_txtComment")
+            elem.send_keys(times["comentario"])
 
-# close driver and exit
-driver.close()
+        # grava o report, passa ao próximo
+        elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
+        elem.click()
+
+        # reporta despesas
+        expenseIds = []
+        if "expenses" in times:
+            # navigate to expense page 
+            elem = driver.find_element_by_link_text("Expenses Report")
+            elem.send_keys(Keys.RETURN)
+            assert "Expenses Report" in driver.title
+                
+            for expense in times["expenses"]:
+                moveToDate(driver, "expenses", times["dia"])
+
+                # tipo
+                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlTipoDespesa"))
+                select.select_by_visible_text(expense["tipo"])
+
+                # local
+                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlLocal"))
+                select.select_by_visible_text(expense["local"])
+
+                # specifics
+                tipos = {"Diesel", "Gasoline", "Islands-Gasoline", "Kms in proper car", "Parking", "Tolls gate"}
+                if expense["tipo"] in tipos:
+                    # matricula
+                    elem = driver.find_element_by_id("MyMatrix_ctl07_txtMatriculaOnly")
+                    elem.send_keys(expense["matricula"])
+
+                tipos = {"Kms in proper car"}
+                if expense["tipo"] in tipos:
+                    # itenerario
+                    elem = driver.find_element_by_id("MyMatrix_ctl07_txtDeslocacao")
+                    elem.send_keys(expense["itenerario"])
+                    
+                    # diaDeslocao
+                    elem = driver.find_element_by_id("MyMatrix_ctl07_txtDiaDeslocacao")
+                    elem.send_keys(expense["diaDeslocao"])
+                    
+                    # kms
+                    elem = driver.find_element_by_id("MyMatrix_ctl07_txtKms")
+                    elem.send_keys(expense["kms"])
+                    
+                    # proposito
+                    elem = driver.find_element_by_id("MyMatrix_ctl07_txtCausas")
+                    elem.send_keys(expense["proposito"])
+
+                tipos = {"Mobility", "Night Out"}
+                if expense["tipo"] in tipos:
+                    # regiao
+                    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlRegiao"))
+                    select.select_by_visible_text(expense["regiao"])
+                    
+                # valor !should not be last, otherwise selenium won't wait for exchange recal!
+                elem = driver.find_element_by_id("MyMatrix_ctl07_txtValorOriginal")
+                elem.clear()
+                elem = driver.find_element_by_id("MyMatrix_ctl07_txtValorOriginal")
+                elem.send_keys(expense["valor"])
+
+                # observacoes
+                if "observacoes" in expense:
+                    elem = driver.find_element_by_id("MyMatrix_ctl07_txtObservacoes")
+                    elem.send_keys(expense["observacoes"])
+
+                # moeda
+                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlMoeda"))
+                select.select_by_visible_text(expense["moeda"])
+
+                # gravar                
+                elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
+                elem.click()
+
+                # devolver id da despesa inserida
+                table = driver.find_element_by_id("MyMatrix_ctl07_GridView")
+                table = table.find_element_by_tag_name("tbody")
+                tableRows = table.find_elements_by_tag_name("tr")
+                for tableRow in tableRows:
+                    try:
+                        tableRowData = tableRow.find_element_by_tag_name("td")
+                    except NoSuchElementException:
+                        continue
+                    if tableRowData.text != " " and tableRowData.text not in expenseIds:
+                        expenseIds.append(tableRowData.text)
+                        print(tableRowData.text + " " + times["dia"] + " " + expense["tipo"] + " " + expense["valor"])
+            
+
+            ## navigate back to time report page
+            elem = driver.find_element_by_link_text("Time Report")
+            elem.send_keys(Keys.RETURN)
+
+finally:
+    # close driver and exit
+    driver.close()
