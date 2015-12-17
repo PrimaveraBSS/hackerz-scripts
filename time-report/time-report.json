@@ -2,36 +2,48 @@
 	"login": {
 		"username": "pedrorodrigues"
 	},
+	"static": {
+		"projecto": "TENSAI Suporte 2015 (CAO_SVU036)",
+		"actividade": "Suporte Compensação",
+		"horas": "7",
+		"expenses": {
+			"tipo": "Lunch working Day",
+			"local": "Outros Mercados",
+			"moeda": "AKZ"
+		}
+	},
 	"time": [
 		{
-			"dia": "14-12-2015",
-			"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
-			"actividade": "Outras (justificar)", 
-			"horas": "0",
-			"comentario": "report de despesa",
+			"dia": "14-12-2015"
 			"expenses": [
 				{
-					"tipo": "Gasoline",
-					"local": "Outros Mercados",
-					"moeda": "AKZ",
-					"valor": "6000,00",
-					"matricula": "LD-99-60-BS"
+					"valor": "2150,00"
 				}
 			]
 		},
 		{
 			"dia": "15-12-2015",
-			"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
-			"actividade": "Outras (justificar)", 
-			"horas": "0",
-			"comentario": "report de despesa",
 			"expenses": [
 				{
-					"tipo": "Gasoline",
-					"local": "Outros Mercados",
-					"moeda": "AKZ",
-					"valor": "6000,00",
-					"matricula": "LD-99-60-BS"
+					"valor": "1939,25"
+				}
+			]
+		},
+		{
+			"dia": "16-12-2015",
+			"expenses": [
+				{
+					"valor": "1722,00"
+				}
+			]
+		},
+		{
+			"dia": "17-12-2015",
+			"projecto": "FORMACAO_ AO_PC_2015 (CAO_ros018)",
+			"actividade": "Formação em ambito de projecto",
+			"expenses": [
+				{
+					"valor": "1850,00"
 				}
 			]
 		}
