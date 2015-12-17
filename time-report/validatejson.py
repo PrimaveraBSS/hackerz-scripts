@@ -34,7 +34,7 @@ def loadJsonData(file):
         data["time"].append({
             "dia": time["dia"],
             "projecto": time["projecto"] if "projecto" in time else static["projecto"],
-            "actividade": time["actividade"] if "actividade" in time else static["projecto"],
+            "actividade": time["actividade"] if "actividade" in time else static["actividade"],
             "horas": time["horas"] if "horas" in time else static["horas"]
         })
 

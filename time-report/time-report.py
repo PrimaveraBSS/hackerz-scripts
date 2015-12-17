@@ -114,7 +114,7 @@ try:
     elem = driver.find_element_by_id("MyMatrix_ctl07_btnIntegrarDAF")
     elem.click()
 
-    ## navigate to time report page
+    ## navigate to time repor4t page
     elem = driver.find_element_by_link_text("Time Report")
     elem.send_keys(Keys.RETURN)
     assert "Time Report" in driver.title
