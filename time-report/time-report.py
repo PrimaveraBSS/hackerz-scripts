@@ -76,36 +76,48 @@ def moveToDate(driver, calendar, date):
 
 ## load data
 data = loadJsonData("time-report.json")
-
-driver = webdriver.Chrome()
-## Login
-driver.get("http://www.primaverabss.com/consultingspace/Home%20Page-Login.aspx")
-assert "Login" in driver.title
+# ask for credentials imediatly
 # username
-elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtLogin")
 if "username" in data["login"]:
     username = data["login"]["username"]
 else:
     print("username: ", end="")
     username = input()
-elem.send_keys(username)
 # password
-elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtPwd")
 if "password" in data["login"]:
     password = data["login"]["password"]
 else:
     password = getpass.getpass("password for " + username + ": ")
+
+# start browser automation
+driver = webdriver.Chrome()
+
+## Login
+driver.get("http://www.primaverabss.com/consultingspace/Home%20Page-Login.aspx")
+assert "Login" in driver.title
+# username
+elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtLogin")
+elem.send_keys(username)
+# password
+elem = driver.find_element_by_id("MyMatrix_ctl06_ctl06_txtPwd")
 elem.send_keys(password)
 # login
 elem.send_keys(Keys.RETURN)
+assert "My Initiative Management" in driver.title
+
+## Integrate all approved expense notes
+elem = driver.find_element_by_link_text("Expenses Report")
+elem.send_keys(Keys.RETURN)
+assert "Expenses Report" in driver.title
+elem = driver.find_element_by_id("MyMatrix_ctl07_btnIntegrarDAF")
+elem.click()
 
 ## navigate to time report page
-assert "My Initiative Management" in driver.title
 elem = driver.find_element_by_link_text("Time Report")
 elem.send_keys(Keys.RETURN)
+assert "Time Report" in driver.title
 
 ## time report
-assert "Time Report" in driver.title
 for times in data["time"]:
     moveToDate(driver, "report", times["dia"])
 
@@ -141,6 +153,7 @@ for times in data["time"]:
         # navigate to expense page 
         elem = driver.find_element_by_link_text("Expenses Report")
         elem.send_keys(Keys.RETURN)
+        assert "Expenses Report" in driver.title
             
         for expense in times["expenses"]:
             moveToDate(driver, "expenses", times["dia"])
