@@ -2,6 +2,7 @@ import sys
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import NoSuchElementException
 import json
 import getpass
 from time import sleep
@@ -137,6 +138,7 @@ for times in data["time"]:
     elem.click()
 
     # reporta despesas
+    expenseIds = []
     if "expenses" in times:
         # navigate to expense page 
         elem = driver.find_element_by_link_text("Expenses Report")
@@ -203,7 +205,19 @@ for times in data["time"]:
             elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
             elem.click()
 
-            # TODO: ler id da despesa inserida
+            # devolver id da despesa inserida
+            table = driver.find_element_by_id("MyMatrix_ctl07_GridView")
+            table = table.find_element_by_tag_name("tbody")
+            tableRows = table.find_elements_by_tag_name("tr")
+            for tableRow in tableRows:
+                try:
+                    tableRowData = tableRow.find_element_by_tag_name("td")
+                except NoSuchElementException:
+                    continue
+                if tableRowData.text != " " and tableRowData.text not in expenseIds:
+                    expenseIds.append(tableRowData.text)
+                    print(tableRowData.text + " " + times["dia"] + " " + expense["tipo"] + " " + expense["valor"])
+        
 
         ## navigate back to time report page
         elem = driver.find_element_by_link_text("Time Report")

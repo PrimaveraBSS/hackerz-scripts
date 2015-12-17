@@ -100,21 +100,21 @@ def loadJsonData(file):
                     "moeda": expense["moeda"],
                     "valor": expense["valor"]
                 })
-                if "itenerario" in time:
+                if "itenerario" in expense:
                     data["time"][time_id]["expenses"][expense_id]["itenerario"] = expense["itenerario"]
-                if "diaDeslocao" in time:
+                if "diaDeslocao" in expense:
                     data["time"][time_id]["expenses"][expense_id]["diaDeslocao"] = expense["diaDeslocao"]
-                if "kms" in time:
+                if "kms" in expense:
                     data["time"][time_id]["expenses"][expense_id]["kms"] = expense["kms"]
-                if "proposito" in time:
+                if "proposito" in expense:
                     data["time"][time_id]["expenses"][expense_id]["proposito"] = expense["proposito"]
-                if "matricula" in time:
+                if "matricula" in expense:
                     data["time"][time_id]["expenses"][expense_id]["matricula"] = expense["matricula"]
-                if "regiao" in time:
+                if "regiao" in expense:
                     data["time"][time_id]["expenses"][expense_id]["regiao"] = expense["regiao"]
 
                 # optional fields
-                if "observacoes" in time:
+                if "observacoes" in expense:
                     data["time"][time_id]["expenses"][expense_id]["observacoes"] = expense["observacoes"]
 
                 expense_id += 1
