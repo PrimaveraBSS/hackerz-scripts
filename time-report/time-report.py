@@ -78,6 +78,8 @@ def moveToDate(driver, calendar, date):
 
 ## load data
 data = loadJsonData("time-report.json")
+print(json.dumps(data, indent=4))
+sys.exit()
 
 driver = webdriver.Chrome()
 ## Login
