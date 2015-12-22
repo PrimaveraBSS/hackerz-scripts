@@ -3,8 +3,8 @@
 		"username": "pedrorodrigues"
 	},
 	"static": {
-		"projecto": "TENSAI Suporte 2015 (CAO_SVU036)",
-		"actividade": "Suporte Compensação",
+		"projecto": "Admin_AO_PC_2015 (CAO_ros023)",
+		"actividade": "Férias ano corrente",
 		"horas": "7",
 		"expenses": {
 			"tipo": "Lunch working Day",
@@ -14,38 +14,10 @@
 	},
 	"time": [
 		{
-			"dia": "14-12-2015",
-			"expenses": [
-				{
-					"valor": "2150,00"
-				}
-			]
+			"dia": "1-1-2016"
 		},
 		{
-			"dia": "15-12-2015",
-			"expenses": [
-				{
-					"valor": "1939,25"
-				}
-			]
-		},
-		{
-			"dia": "16-12-2015",
-			"expenses": [
-				{
-					"valor": "1722,00"
-				}
-			]
-		},
-		{
-			"dia": "17-12-2015",
-			"projecto": "FORMACAO_ AO_PC_2015 (CAO_ros018)",
-			"actividade": "Formação em ambito de projecto",
-			"expenses": [
-				{
-					"valor": "1850,00"
-				}
-			]
+			"dia": "2-1-2016"
 		}
 	]
 }

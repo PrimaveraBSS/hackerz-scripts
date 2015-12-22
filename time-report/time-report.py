@@ -105,16 +105,26 @@ try:
     elem.send_keys(password)
     # login
     elem.send_keys(Keys.RETURN)
-    assert "My Initiative Management" in driver.title
+    try: 
+        assert "My Initiative Management" in driver.title
+    except Exception as ex:
+        print(ex)
+        print()
+        print("username e password, estão correctos?")
 
     ## Integrate all approved expense notes
-    elem = driver.find_element_by_link_text("Expenses Report")
-    elem.send_keys(Keys.RETURN)
-    assert "Expenses Report" in driver.title
-    elem = driver.find_element_by_id("MyMatrix_ctl07_btnIntegrarDAF")
-    elem.click()
+    try:
+        elem = driver.find_element_by_link_text("Expenses Report")
+        elem.send_keys(Keys.RETURN)
+        assert "Expenses Report" in driver.title
+        elem = driver.find_element_by_id("MyMatrix_ctl07_btnIntegrarDAF")
+        elem.click()
+    except Exception as ex:
+        print(ex)
+        print()
+        print("Não foi possível integrar despesas no MyMis.")
 
-    ## navigate to time repor4t page
+    ## navigate to time report page
     elem = driver.find_element_by_link_text("Time Report")
     elem.send_keys(Keys.RETURN)
     assert "Time Report" in driver.title
@@ -125,29 +135,39 @@ try:
 
         # verfica se não tem report neste dia
         elem = driver.find_element_by_id("MyMatrix_ctl07_txtTotalHoras")
-        if (elem.get_attribute("value") != "0"): # tem horas reportas, passa em frente
-            continue
+        if (elem.get_attribute("value") == "0"): # se tem horas reportadas passa para as despesas
 
-        # projecto
-        select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
-        select.select_by_visible_text(times["projecto"])
-        
-        # actividade
-        select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlActivity"))
-        select.select_by_visible_text(times["actividade"])
-        
-        # horas
-        elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
-        elem.send_keys(times["horas"])
+            # projecto
+            try:
+                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlProject"))
+                select.select_by_visible_text(times["projecto"])
+            except NoSuchElementException as ex:
+                print("Projecto nao encontrado, a passar para o dia seguinte.")
+                print(json.dumps(times, ensure_ascii=False, indent=4))
+                continue
+            
+            # actividade
+            try:
+                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlActivity"))
+                select.select_by_visible_text(times["actividade"])
+            except NoSuchElementException as ex:
+                print("Actividade nao encontrada, a passar para o dia seguinte.")
+                print(json.dumps(times, ensure_ascii=False, indent=4))
+                continue
+            
+            # horas
+            elem = driver.find_element_by_id("MyMatrix_ctl07_txtHours")
+            elem.send_keys(times["horas"])
 
-        # comentario
-        if "comentario" in times:  
-            elem = driver.find_element_by_id("MyMatrix_ctl07_txtComment")
-            elem.send_keys(times["comentario"])
+            # comentario
+            if "comentario" in times:  
+                elem = driver.find_element_by_id("MyMatrix_ctl07_txtComment")
+                elem.send_keys(times["comentario"])
 
-        # grava o report, passa ao próximo
-        elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
-        elem.click()
+            # grava o report, passa ao próximo
+            elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
+            elem.click()
+
 
         # reporta despesas
         expenseIds = []
@@ -161,12 +181,22 @@ try:
                 moveToDate(driver, "expenses", times["dia"])
 
                 # tipo
-                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlTipoDespesa"))
-                select.select_by_visible_text(expense["tipo"])
+                try:
+                    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlTipoDespesa"))
+                    select.select_by_visible_text(expense["tipo"])
+                except NoSuchElementException as ex:
+                    print("Tipo nao encontrado, a passar para a despesa seguinte.")
+                    print(times["dia"] + ":" + json.dumps(expense, ensure_ascii=False, indent=4))
+                    continue
 
                 # local
-                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlLocal"))
-                select.select_by_visible_text(expense["local"])
+                try:
+                    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlLocal"))
+                    select.select_by_visible_text(expense["local"])
+                except NoSuchElementException as ex:
+                    print("Local nao encontrado, a passar para a despesa seguinte.")
+                    print(times["dia"] + ":" + json.dumps(expense, ensure_ascii=False, indent=4))
+                    continue
 
                 # specifics
                 tipos = {"Diesel", "Gasoline", "Islands-Gasoline", "Kms in proper car", "Parking", "Tolls gate"}
@@ -211,8 +241,13 @@ try:
                     elem.send_keys(expense["observacoes"])
 
                 # moeda
-                select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlMoeda"))
-                select.select_by_visible_text(expense["moeda"])
+                try:
+                    select = Select(driver.find_element_by_id("MyMatrix_ctl07_ddlMoeda"))
+                    select.select_by_visible_text(expense["moeda"])
+                except NoSuchElementException as ex:
+                    print("Moeda nao encontrada, a passar para a despesa seguinte.")
+                    print(times["dia"] + ":" + json.dumps(expense, ensure_ascii=False, indent=4))
+                    continue
 
                 # gravar                
                 elem = driver.find_element_by_id("MyMatrix_ctl07_btnGravar")
