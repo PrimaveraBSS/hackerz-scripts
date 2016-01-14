@@ -34,7 +34,7 @@ def moveToDate(driver, calendar, date):
     # verifica se esta no dia a reportar
     elem = driver.find_element_by_id(cldr_acts[calendar]["dy_lbl"])
     if not elem.text == cldr_acts[calendar]["dy_lbl_start"] + date:
-        
+
         # move pare o ano a reportar
         while (date.split("-")[2] != elem.text.replace(cldr_acts[calendar]["dy_lbl_start"], "").split("-")[2]):
             if (date.split("-")[2] > elem.text.replace(cldr_acts[calendar]["dy_lbl_start"], "").split("-")[2]):
@@ -49,11 +49,10 @@ def moveToDate(driver, calendar, date):
             elem = driver.find_element_by_id(cldr_acts[calendar]["dy_pck"])
             elem.find_elements_by_class_name("date_day")[0].click()
             elem = driver.find_element_by_id(cldr_acts[calendar]["dy_lbl"])
-
-            
+    
         # move pare o mes a reportar
-        while (date.split("-")[1] != elem.text.replace(cldr_acts[calendar]["dy_lbl_start"], "").split("-")[1]):
-            if (date.split("-")[1] > elem.text.replace(cldr_acts[calendar]["dy_lbl_start"], "").split("-")[1]):
+        while (date.split("-")[1] != elem.text.replace(cldr_acts[calendar]["dy_lbl_start"], "").split("-")[1].strip("0")):
+            if (date.split("-")[1] > elem.text.replace(cldr_acts[calendar]["dy_lbl_start"], "").split("-")[1].strip("0")):
                 # mes a reportar maior que mes posicionado, move para a direita
                 elem = driver.find_element_by_id(cldr_acts[calendar]["mv_rht"])
                 elem.click()
