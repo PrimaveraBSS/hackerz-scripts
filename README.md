@@ -1,5 +1,8 @@
 # hackerz-scripts
 
+I do not work for Primavera anymore, contact me via [private email](mailto:prodrigues1990@gmail.com) or via any of the GitHub
+options. 
+
 ## time-report (alpha)
 Faz o report de horas automaticamente no portal do IM
 
